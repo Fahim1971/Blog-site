@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block title_block %} Fahim's Photography - Add Profile Pic {% endblock %}
+{% block content %}
+    <div class="container">
+        <h2>Add Your Profile Picture:</h2>
+        <img src="/media/{{ user.user_profile.profile_pic}}" class="rounded-circle" width="50px" height="50px">
+        <form method="POST" enctype="multipart/form-data">
+            {{ form|crispy }}
+            {% csrf_token %}
+            <button type="submit" class="btn btn-success btn-sm">Add</button>
+        </form>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% load custom_filters %}
+{% load crispy_forms_tags %}
+{% block title_block %}{{blog.blog_titel}}{% endblock %}
+{% block content %}
+<div class="container">
+<div class="row">
+    <div class="col-md-4">
+        <h4 class="black-color">Posted By:@{{ blog.author }}</h4>
+        <h4 class="black-color">{{ blog.blog_title }}</h4>
+        <h6 class="text-dark"><i>{{ blog.update_date }}</i></h6>
+        <h6 class="text-dark"><i>{{ blog.liked_blog.count }} Likes| {{ blog.blog_comment.count }} Comments</i></h6>
+
+
+    </div>
+    <div class="col-md-4">
+          <img src="/media/{{ blog.blog_image }}" alt="{{ blog.blog_title }}" title="{{ blog.blog_title }}"
+                         width="100%">
+    </div>
+       <div class="col-md-4">
+         <p>{{ blog.blog_content|linebreaks}}</p>
+           <hr>
+
+    </div>
+</div>
+<div class="row ">
+    <div class="col-sm-6">
+    {% if not liked %}
+         <a href="{% url 'liked_post' pk=blog.pk %}">
+               <i class="fas fa-thumbs-up black-color fa-3x" aria-hidden="true"  ></i>
+           </a>
+    {% else %}
+            <a href="{% url 'unliked_post' pk=blog.pk %}">
+               <i class="fas fa-thumbs-down black-color fa-3x" aria-hidden="true"  ></i>
+           </a>
+    {% endif %}
+      <hr>
+      <h5 class="black-color">Comments:</h5>
+      {% for comment in blog.blog_comment.all %}
+          <img class="img-thumbnail col-sm-2" src="/media/{{comment.user.user_profile.profile_pic}}">
+      <p><a href="#" class="black-color">@{{comment.user}}</a> {{comment.comment}}<br><h6 class="black-color">{{comment.comment_date}}</h6></p>
+      {% endfor %}
+    </div>
+    <div class="col-sm-6">
+      <form method="POST">
+        {{ comment_form|crispy }}
+        {% csrf_token %}
+        <button type="submit" class="btn btn-primary btn-sm">Comment</button>
+      </form>
+    </div>
+
+  </div>
+</div>
+
+{% endblock %}

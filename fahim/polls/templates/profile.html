@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block title_block %} Fahim's Photography - Create New Account {% endblock %}
+{% block content %}
+    <h2>Your Profile</h2>
+    {% if user.user_profile %}
+        <img src="/media/{{ user.user_profile.profile_pic}}" class="rounded-circle" width="100px">
+        <a href="{% url 'change_pro_pic' %}" class="btn btn-info btn-sm">Change profile pic</a>
+    {% else %}
+        <img src="/media/profile_pics/avatar.png" class="rounded-circle" width="100px">
+        <a href="{% url 'add_pro_pic' %}" class="btn btn-info btn-sm">Add profile pic</a>
+    {% endif %}
+    <p>Username: {{ user.username }}</p>
+    <p>Email: {{ user.email }}</p>
+    <p>Name: {{ user.first_name }} {{ user.last_name }}</p>
+    <br>
+    <a href="{% url 'user_change' %}" class="btn btn-warning btn-sm">Change Profile Info</a>
+{% endblock %}
